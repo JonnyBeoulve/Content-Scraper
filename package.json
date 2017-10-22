@@ -1,0 +1,17 @@
+{
+  "name": "content-scraper",
+  "version": "1.0.0",
+  "description": "this program pulls data from an e-commerce website and then prints it to a csv file.",
+  "main": "scraper.js",
+  "dependencies": {
+    "json2csv": "^3.11.4",
+    "scrape-it": "^3.3.3"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start": "node scraper.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Jonathan Leack",
+  "license": "MIT"
+}
