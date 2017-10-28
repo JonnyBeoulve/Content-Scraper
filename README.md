@@ -1,12 +1,15 @@
 # Content-Scraper
-Created by Jonathan Leack
+This program will scrape a prototype website for product details, map the data to an array, and then push to CSV in a sub-folder.
 
-This program built using node.js will scrape a prototype website for product details, map the data to an array, and then push to CSV in a sub-folder.
-
-Dependencies include Scrape-It and JSON2CSV. Both are available via npm and will automatically install using the 'npm install' command.
-
-To run this program do the following:
-
+## How to Use
 1. Make sure you have 'scraper.js' and 'package.json' in a single folder.
 2. From command line, type 'npm install' to install all dependencies.
 3. Type 'npm start' to run the program. Alternatively, you can manually run the program by typing 'node scraper.js'.
+
+## Programming
+* Node.js (https://nodejs.org/en)
+* Scrape-It (https://www.npmjs.com/package/scrape-it)
+* JSON2CSV (https://www.npmjs.com/package/json2csv)
+
+## Note
+I chose to manually create timestamps using functions rather than an npm module such as moment.
