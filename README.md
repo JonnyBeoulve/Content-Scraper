@@ -8,6 +8,7 @@ This program will scrape a prototype website for product details, map the data t
 
 ## Programming
 * Node.js (https://nodejs.org/en)
+* NPM (https://www.npmjs.com/)
 * Scrape-It (https://www.npmjs.com/package/scrape-it)
 * JSON2CSV (https://www.npmjs.com/package/json2csv)
 
