@@ -37,6 +37,7 @@ scrapeIt("http://www.shirts4mike.com/shirts.php", { // scrape for all shirts usi
         })
     })
     .catch(err => {
+        console.log("Error: Unable to connect to Shirts4Mike.com.\n");
         console.log(err);
 });
 
@@ -72,7 +73,7 @@ function scrapeShirtData(product) {
 function createDataFolder() {
     if (!fs.existsSync(dataFolder)) { // no data folder exists, create one
         fs.mkdirSync(dataFolder);
-        console.log("NOTICE: Creating 'Data' folder for CSV file.")
+        console.log("Notice: Creating 'Data' folder for CSV file.")
     } else { // data folder already exists, exit function
         return 0;
     }
@@ -133,20 +134,20 @@ function createCSV(data) {
 
         fs.stat(`${dataFolder}/${todaysDate}.csv`, function(err, stat) {
         if(err == null) {  // file exists, clear file then insert data
-            console.log('NOTICE: File already exists. Overwriting data in file.');
+            console.log('Notice: File already exists. Overwriting data in file.');
             fs.truncate(`${dataFolder}/${todaysDate}.csv`, 0);
 
             let csv = json2csv({ data: data, fields: fields, fieldNames: fieldNames });
             let csvFile = `${dataFolder}/${todaysDate}.csv`;
 
             fs.writeFile(csvFile, csv);
-            console.log("NOTICE: CSV file successfully created.");
+            console.log("Notice: CSV file successfully created.");
         } else if(err.code == 'ENOENT') { // file doesn't exist, insert data
             let csv = json2csv({ data: data, fields: fields, fieldNames: fieldNames });
             let csvFile = `${dataFolder}/${todaysDate}.csv`;
 
             fs.writeFile(csvFile, csv);
-            console.log("NOTICE: CSV file successfully created.");
+            console.log("Notice: CSV file successfully created.");
         }
     })
     } catch (error) {
