@@ -1,6 +1,6 @@
 {
   "name": "content-scraper",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "this program pulls data from an e-commerce website and then prints it to a csv file.",
   "main": "scraper.js",
   "dependencies": {
