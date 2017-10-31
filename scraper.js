@@ -1,13 +1,13 @@
 /******************************************************************************
 // GLOBAL VARIABLES
 ******************************************************************************/
-const fs = require('fs'); // file system module
-const scrapeIt = require('scrape-it') // content scraper module (scrape-it)
-const json2csv = require('json2csv'); // json to csv converter module (json2csv)
+const         fs = require('fs'), // file system module
+        scrapeIt = require('scrape-it'), // content scraper module (scrape-it)
+        json2csv = require('json2csv'); // json to csv converter module (json2csv)
 
-const dataFolder = './data'; // folder for storing csv files
-const fields = ['title', 'price', 'imgURL', 'url', 'time']; // fields for structure
-const fieldNames = ["Title", "Price","ImageURL", "URL", "Time"]; // field headers for csv file
+const dataFolder = './data', // folder for storing csv files
+          fields = ['title', 'price', 'imgURL', 'url', 'time'], // fields for structure
+      fieldNames = ["Title", "Price","ImageURL", "URL", "Time"]; // field headers for csv file
 
 /******************************************************************************
 // MAIN PROGRAM
@@ -22,20 +22,22 @@ scrapeIt("http://www.shirts4mike.com/shirts.php", { // scrape for all shirts usi
         url: {
             selector: "a",
             attr: "href"
-        }
-        }
-    }
-}).then(shirts => { // create array of shirt pages with details
-    shirts = shirts.shirts;
-    let shirtsArray = shirts.map(scrapeShirtData); 
-    let allShirts = Promise.all(shirtsArray).then(data => {
-
-        data.map(shirt => shirt.time = new Date().toString("hh:mm tt"));
-        createDataFolder();
-        createCSV(data);
+        }}}
     })
-}).catch(err => {
-    console.log("ERROR: 404. Cannot connect to website http://shirts4mike.com.");
+    
+    .then(shirts => { // create array of shirt pages with details
+        shirts = shirts.shirts;
+        let shirtsArray = shirts.map(scrapeShirtData); 
+        let allShirts = Promise.all(shirtsArray)
+        
+        .then(data => { // once promise is fulfilled, map all array elements with timestamp and create folder with csv
+            data.map(shirt => shirt.time = new Date().toString("hh:mm tt"));
+            createDataFolder();
+            createCSV(data);
+        })
+    })
+    .catch(err => {
+        console.log(err);
 });
 
 /******************************************************************************
@@ -47,8 +49,7 @@ scrapeIt("http://www.shirts4mike.com/shirts.php", { // scrape for all shirts usi
 function scrapeShirtData(product) {
     let productUrl = `http://www.shirts4mike.com/${product.url}`;
     
-    return scrapeIt(productUrl, { 
-    // use scrape-it to scrape details of every shirt by url
+    return scrapeIt(productUrl, { // return scrape-it results pulled for all five column elements
     title: 'title',
     price: '.price',
     imgURL: {
@@ -69,12 +70,10 @@ function scrapeShirtData(product) {
 // This function will create a Data folder if there already isn't one.
 ******************************************************************************/
 function createDataFolder() {
-    if (!fs.existsSync(dataFolder)) { 
-        // no data folder exists, create one
+    if (!fs.existsSync(dataFolder)) { // no data folder exists, create one
         fs.mkdirSync(dataFolder);
         console.log("NOTICE: Creating 'Data' folder for CSV file.")
-    } else { 
-        // data folder already exists, exit function
+    } else { // data folder already exists, exit function
         return 0;
     }
     return 0;
@@ -133,8 +132,7 @@ function createCSV(data) {
         const todaysDate = getDate(); // grab timestamp to use for csv file naming
 
         fs.stat(`${dataFolder}/${todaysDate}.csv`, function(err, stat) {
-        if(err == null) { 
-            // file exists, clear file then insert data
+        if(err == null) {  // file exists, clear file then insert data
             console.log('NOTICE: File already exists. Overwriting data in file.');
             fs.truncate(`${dataFolder}/${todaysDate}.csv`, 0);
 
@@ -143,8 +141,7 @@ function createCSV(data) {
 
             fs.writeFile(csvFile, csv);
             console.log("NOTICE: CSV file successfully created.");
-        } else if(err.code == 'ENOENT') { 
-            // file doesn't exist, insert data
+        } else if(err.code == 'ENOENT') { // file doesn't exist, insert data
             let csv = json2csv({ data: data, fields: fields, fieldNames: fieldNames });
             let csvFile = `${dataFolder}/${todaysDate}.csv`;
 
@@ -153,6 +150,6 @@ function createCSV(data) {
         }
     })
     } catch (error) {
-        console.log("ERROR: Something went wrong with creating a CSV file.")
+        console.log(error);
     }
 };
