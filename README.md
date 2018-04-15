@@ -1,5 +1,5 @@
 # Content-Scraper
-This program will scrape a prototype website for product details, map the data to an array, and then push to CSV in a sub-folder.
+This program built using Node.js will scrape a prototype website for product details, map the data to an array, and then push to CSV in a sub-folder.
 
 ## How to Use
 1. Make sure you have 'scraper.js' and 'package.json' in a single folder.
